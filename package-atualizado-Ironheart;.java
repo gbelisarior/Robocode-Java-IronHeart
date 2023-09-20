@@ -11,12 +11,12 @@ import java.awt.Color;
 public class Ironheart extends AdvancedRobot {
     private ScannedRobotEvent alvoMaisProximo;
     private int tempoInatividade = 0;
-  
+
 
     public void run() {
         // Configurações iniciais
-       setColors(Color.red, Color.blue, Color.white, Color.yellow, Color.white);
- // Define as cores do seu tanque
+        setColors(Color.red, Color.blue, Color.white, Color.yellow, Color.white);
+        // Define as cores do seu tanque
 
         // Movimentação do tank em loop
         while (true) {
@@ -25,25 +25,25 @@ public class Ironheart extends AdvancedRobot {
             if (angulo) {
                 for (int voltasDir = 0; voltasDir < 4; voltasDir++) {
                     ahead(100);
-                    turnRight(90);
-                    turnGunRight(90);
+                    turnRight(80);
+                    turnGunRight(45);
                 }
                 for (int voltasEsq = 4; voltasEsq > 0; voltasEsq--) {
                     ahead(100);
-                    turnLeft(90);
-                    turnGunLeft(90);
+                    turnLeft(75);
+                    turnGunLeft(45);
                 }
                 angulo = false;
             } else {
                 for (int voltasDir45 = 0; voltasDir45 < 8; voltasDir45++) {
-                    ahead(50);
+                    ahead(80);
                     turnRight(45);
                     turnGunRight(90);
                 }
                 for (int voltasEsq45 = 4; voltasEsq45 > 0; voltasEsq45--) {
-                    ahead(50);
+                    ahead(80);
                     turnLeft(45);
-                    turnGunLeft(90);
+                    turnGunLeft(140);
                 }
                 angulo = true;
             }
@@ -67,10 +67,17 @@ public class Ironheart extends AdvancedRobot {
         // Trava a mira no alvo
         setTurnGunRight(Utils.normalRelativeAngleDegrees(event.getBearing() + getHeading() - getGunHeading()));
 
-        // Se o inimigo estiver mirando em nós, recue
+// Se o inimigo estiver mirando em nós, recue
         if (event.getDistance() < 200 && event.getEnergy() > getEnergy()) {
             back(100); // Recua por um período
         } else {
+
+            if (event.getDistance() > 300){
+                ahead(100);
+                turnRight(90);
+            }
+            // Código para desviar ou realizar outra ação
+
             // Dispara um tiro com força 3 se a distância for menor que 135, caso contrário, dispara um tiro com força 1
             if (distancia < 135) {
                 setFire(3); // Tiro com força 3
@@ -82,8 +89,8 @@ public class Ironheart extends AdvancedRobot {
 
     // Colisão com a parede
     public void onHitWall(HitWallEvent e) {
-        back(50); // Recua 50 pixels
-        turnRight(90); // Gira 90 graus à direita
+        back(75); // Recua 50 pixels
+        turnRight(116); // Gira 90 graus à direita
     }
 
 }
